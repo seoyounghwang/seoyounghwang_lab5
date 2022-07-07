@@ -17,11 +17,37 @@ class Part1 extends Component {
         })
     }
 
+    deleteRow = ()=> {
+
+    }
+
     render() {
+        const {photos} = this.state;
         return (
-            <div>
+            <React.Fragment>
+                <h1>Photos Table</h1>
+                <table>
+                    {
+                        photos.map(photo =>
+                            <tr>
+                                <td>
+                                    {photo.id}
+                                </td>
+                                <td>
+                                    {photo.title}
+                                </td>
+                                <td>
+                                    <img src={photo.thumbnailUrl} alt='thumnail'/>
+                                </td>
+                                <td>
+                                    <button onClick={this.deleteRow}>Delete</button>
+                                </td>
+                            </tr>
+                            )
+                    }
+                </table>
                 
-            </div>
+            </React.Fragment>
         );
     }
 }
