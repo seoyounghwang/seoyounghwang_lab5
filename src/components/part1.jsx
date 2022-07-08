@@ -5,6 +5,7 @@ class Part1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      err: "",
       photos: [],
     };
   }
@@ -16,34 +17,39 @@ class Part1 extends Component {
   }
 
   deleteRow = (e) => {
-    //     axios.delete(`https://jsonplaceholder.typicode.com/photos/${e.target.value}`)
-    // .then(() => {
-    //     const photos = this.state.photos.filter(item=>{
-    //         return item.id!== parseInt(e.target.value);
+    const photos = this.state.photos.filter((item) => {
+      return item.id !== parseInt(e.target.value);
+    });
+    this.setState({ photos });
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/photos/${e.target.value}`)
+      .then(() => {})
+      .catch((err) => {
+        this.setState({ err });
+      });
+    // fetch(
+    //   `https://jsonplaceholder.typicode.com/photos/${parseInt(e.target.value)}`,
+    //   {
+    //     method: "DELETE",
+    //   }
+    // )
+    //   .then((res) => res.json())
+    //   .then((result) => {
+    //     const photos = this.state.photos.filter((item) => {
+    //       return item.id !== parseInt(e.target.value);
     //     });
-    // });
-    fetch(
-      `https://jsonplaceholder.typicode.com/photos/${parseInt(e.target.value)}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((res) => res.json())
-      .then((result) => {
-        const photos = this.state.photos.filter((item) => {
-          return item.id !== parseInt(e.target.value);
-        });
 
-        this.setState({ photos });
-      })
-      .catch((err) => console.log(err.toString()));
+    //     this.setState({ photos });
+    //   })
+    //   .catch((err) => console.log(err.toString()));
   };
 
   render() {
-    const { photos } = this.state;
+    const { err, photos } = this.state;
     return (
       <React.Fragment>
         <h1>Photos Table</h1>
+        <p>{err ? err : ""}</p>
         <table>
           <tbody>
             {photos.map((photo) => (
