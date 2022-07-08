@@ -6,20 +6,30 @@ class Part1 extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            photos: []
+            photos: [],
         }
     }
 
     componentDidMount() {
         axios.get('https://jsonplaceholder.typicode.com/photos').then(res => {
             this.setState({photos: res.data})
-            console.log(this.state.photos);
         })
     }
 
-    deleteRow = ()=> {
+    deleteRow = (e)=> {
 
+        axios.delete(`https://jsonplaceholder.typicode.com/photos/${e.target.value}`)
+    .then(() => {
+        const photos = this.state.photos.filter(item=>{
+            return item.id!== parseInt(e.target.value);
+        });
+        this.setState({photos });
+    });
+
+    
     }
+
+
 
     render() {
         const {photos} = this.state;
@@ -27,9 +37,10 @@ class Part1 extends Component {
             <React.Fragment>
                 <h1>Photos Table</h1>
                 <table>
+                    <tbody>
                     {
                         photos.map(photo =>
-                            <tr>
+                            <tr key={photo.id}>
                                 <td>
                                     {photo.id}
                                 </td>
@@ -40,11 +51,12 @@ class Part1 extends Component {
                                     <img src={photo.thumbnailUrl} alt='thumnail'/>
                                 </td>
                                 <td>
-                                    <button onClick={this.deleteRow}>Delete</button>
+                                    <button value={photo.id} onClick={this.deleteRow}>Delete</button>
                                 </td>
                             </tr>
                             )
                     }
+                    </tbody>
                 </table>
                 
             </React.Fragment>
