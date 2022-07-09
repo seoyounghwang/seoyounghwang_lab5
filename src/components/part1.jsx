@@ -20,6 +20,7 @@ class Part1 extends Component {
     const photos = this.state.photos.filter((item) => {
       return item.id !== parseInt(e.target.value);
     });
+
     this.setState({ photos });
     axios
       .delete(`https://jsonplaceholder.typicode.com/photos/${e.target.value}`)
@@ -27,6 +28,7 @@ class Part1 extends Component {
       .catch((err) => {
         this.setState({ err });
       });
+
     // fetch(
     //   `https://jsonplaceholder.typicode.com/photos/${parseInt(e.target.value)}`,
     //   {
